@@ -1,0 +1,25 @@
+name: $(BuildDefinitionName)_$(date:yyyyMMdd)$(rev:.r)
+ 
+trigger: none
+ 
+pr: none
+ 
+stages :        
+  - stage: arm_template_deploy
+    jobs:
+      - job: arm_template_deploy
+        steps:
+              - checkout: self
+ 
+              - task: AzureResourceManagerTemplateDeployment@3
+                inputs:
+                  deploymentScope: 'Resource Group'
+                  azureResourceManagerConnection: 'MyFirstDevOpsARMSC'
+                  subscriptionId: 'Your-Subscription-ID'
+                  action: 'Create Or Update Resource Group'
+                  resourceGroupName: 'MyFirstDevOpsARMRG'
+                  location: 'westeurope'
+                  templateLocation: 'Linked artifact'
+                  csmFile: '$(System.DefaultWorkingDirectory)/template/vnet.json'
+                  csmParametersFile: '$(System.DefaultWorkingDirectory)/template/vnet.parameters.json'
+                  deploymentMode: 'Incremental'
