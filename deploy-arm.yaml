@@ -8,6 +8,8 @@ stages :
   - stage: arm_template_deploy
     jobs:
       - job: arm_template_deploy
+        variables:
+        - group: "MyFirstDevOpsARMVariableGroup"
         steps:
               - checkout: self
  
@@ -15,7 +17,7 @@ stages :
                 inputs:
                   deploymentScope: 'Resource Group'
                   azureResourceManagerConnection: 'MyFirstDevOpsARMSC'
-                  subscriptionId: 'Your-Subscription-ID'
+                  subscriptionId: $(subscriptionid)
                   action: 'Create Or Update Resource Group'
                   resourceGroupName: 'MyFirstDevOpsARMRG'
                   location: 'westeurope'
